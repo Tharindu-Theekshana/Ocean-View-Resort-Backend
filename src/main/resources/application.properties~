@@ -3,4 +3,3 @@ db.username=postgres
 db.password=12345
 db.driver=org.postgresql.Driver
 hibernate.hbm2ddl.auto=update
-upload.path=C:/room_images/

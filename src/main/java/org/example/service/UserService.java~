@@ -1,0 +1,11 @@
+package org.example.service;
+
+import org.example.dto.UserDto;
+import org.jvnet.hk2.annotations.Service;
+
+@Service
+public class UserService {
+    public Object userRegister(UserDto userDto) {
+        
+    }
+}

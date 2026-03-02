@@ -26,6 +26,10 @@
         <property name="hibernate.format_sql">true</property>
 
         <mapping class="org.example.model.User"/>
+        <mapping class="org.example.model.Role"/>
+        <mapping class="org.example.model.UserRole"/>
+        <mapping class="org.example.model.UserDetail"/>
+        <mapping class="org.example.model.Room"/>
     </session-factory>
 
 </hibernate-configuration>
