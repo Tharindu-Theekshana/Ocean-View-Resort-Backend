@@ -1,6 +1,7 @@
 package org.example.service;
 
 import org.example.model.Room;
+import org.example.model.RoomType;
 import org.example.repository.RoomRepository;
 import org.jvnet.hk2.annotations.Service;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
@@ -10,8 +11,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Properties;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class RoomService {
@@ -50,4 +50,47 @@ public class RoomService {
         return roomRepository.save(room);
     }
 
+    public Map<String, Object> getRoomById(Long id) {
+        Room room = roomRepository.findById(id);
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", room.getId());
+        response.put("type", room.getType());
+        response.put("price", room.getPrice());
+        response.put("description", room.getDescription());
+
+        if (room.getImagePath() != null) {
+            try {
+                byte[] imageBytes = Files.readAllBytes(Paths.get(room.getImagePath()));
+                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                response.put("image", base64Image);
+            } catch (IOException e) {
+                response.put("image", null);
+            }
+        }
+        return response;
+    }
+
+    public List<Map<String, Object>> getRoomsByType(String type) {
+        RoomType roomType = RoomType.valueOf(type.toUpperCase());
+        List<Room> rooms = roomRepository.findByType(roomType);
+        List<Map<String, Object>> response = new ArrayList<>();
+        for (Room room : rooms) {
+            Map<String, Object> roomMap = new HashMap<>();
+            roomMap.put("id", room.getId());
+            roomMap.put("type", room.getType());
+            roomMap.put("price", room.getPrice());
+            roomMap.put("description", room.getDescription());
+
+            if (room.getImagePath() != null) {
+                try {
+                    byte[] imageBytes = Files.readAllBytes(Paths.get(room.getImagePath()));
+                    roomMap.put("image", Base64.getEncoder().encodeToString(imageBytes));
+                } catch (IOException e) {
+                    roomMap.put("image", null);
+                }
+            }
+            response.add(roomMap);
+        }
+        return response;
+    }
 }
