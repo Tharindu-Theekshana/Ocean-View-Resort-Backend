@@ -6,6 +6,7 @@ import org.example.config.JwtUtil;
 import org.example.dto.UserDto;
 import org.example.model.*;
 import org.example.repository.RoleRepository;
+import org.example.repository.UserDetailRepository;
 import org.example.repository.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -18,48 +19,40 @@ import java.util.List;
 @Service
 public class AuthService {
 
-    private final UserRepository userRepository = new UserRepository();
-    private final RoleRepository roleRepository = new RoleRepository();
+    private UserRepository userRepository = new UserRepository();
+    private RoleRepository roleRepository = new RoleRepository();
+    private UserDetailRepository userDetailRepository = new UserDetailRepository();
 
     public Object register(UserDto userDto) {
 
         if (userRepository.existsByUsername(userDto.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
-        Transaction tx = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            tx = session.beginTransaction();
 
-            User user = new User();
-            user.setUsername(userDto.getUsername());
-            user.setPassword(BCrypt.hashpw(userDto.getPassword(), BCrypt.gensalt()));
-            session.persist(user);
+        User user = new User();
+        user.setUsername(userDto.getUsername());
+        user.setPassword(BCrypt.hashpw(userDto.getPassword(), BCrypt.gensalt()));
+        userRepository.save(user);
 
-            UserDetail detail = new UserDetail();
-            detail.setName(userDto.getName());
-            detail.setAddress(userDto.getAddress());
-            detail.setPhoneNumber(userDto.getPhoneNumber());
-            detail.setUser(user);
-            session.persist(detail);
+        UserDetail detail = new UserDetail();
+        detail.setName(userDto.getName());
+        detail.setAddress(userDto.getAddress());
+        detail.setPhoneNumber(userDto.getPhoneNumber());
+        detail.setUser(user);
+        userDetailRepository.save(detail);
 
-            Role role = roleRepository.findByName(session, userDto.getRole());
+        Role role = roleRepository.findByName(userDto.getRole());
 
-            if(role != null) {
-                UserRole userRole = new UserRole();
-                userRole.setUser(user);
-                userRole.setRole(role);
-                session.persist(userRole);
-            }else {
-                throw new RuntimeException("Role not found");
-            }
-
-            tx.commit();
-            return detail;
-
-        } catch (Exception e) {
-            if (tx != null) tx.rollback();
-            throw new RuntimeException("Registration failed: " + e.getMessage(), e);
+        if(role != null) {
+            UserRole userRole = new UserRole();
+            userRole.setUser(user);
+            userRole.setRole(role);
+            roleRepository.saveUserRole(userRole);
+        }else {
+            throw new RuntimeException("Role not found");
         }
+        return detail;
+
 
     }
 

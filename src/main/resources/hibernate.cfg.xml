@@ -30,6 +30,7 @@
         <mapping class="org.example.model.UserRole"/>
         <mapping class="org.example.model.UserDetail"/>
         <mapping class="org.example.model.Room"/>
+        <mapping class="org.example.model.Reservation"/>
     </session-factory>
 
 </hibernate-configuration>
