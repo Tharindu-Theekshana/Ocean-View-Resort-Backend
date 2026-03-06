@@ -1,6 +1,7 @@
 package org.example.repository;
 
 import org.example.config.HibernateUtil;
+import org.example.model.Room;
 import org.example.model.User;
 import org.example.model.UserDetail;
 import org.hibernate.Session;
@@ -23,5 +24,10 @@ public class UserDetailRepository {
         }
     }
 
+    public UserDetail findById(Long id) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.get(UserDetail.class, id);
+        }
+    }
 
 }

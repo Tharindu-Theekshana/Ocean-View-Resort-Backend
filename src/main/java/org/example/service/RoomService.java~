@@ -94,26 +94,7 @@ public class RoomService {
         return response;
     }
 
-    public List<Map<String, Object>> getAllRooms() {
-        List<Room> rooms = roomRepository.findAll();
-        List<Map<String, Object>> response = new ArrayList<>();
-        for (Room room : rooms) {
-            Map<String, Object> roomMap = new HashMap<>();
-            roomMap.put("id", room.getId());
-            roomMap.put("type", room.getType());
-            roomMap.put("price", room.getPrice());
-            roomMap.put("description", room.getDescription());
-
-            if (room.getImagePath() != null) {
-                try {
-                    byte[] imageBytes = Files.readAllBytes(Paths.get(room.getImagePath()));
-                    roomMap.put("image", Base64.getEncoder().encodeToString(imageBytes));
-                } catch (IOException e) {
-                    roomMap.put("image", null);
-                }
-            }
-            response.add(roomMap);
-        }
-        return response;
+    public List<Room> getAllRooms() {
+        return roomRepository.findAll();
     }
 }

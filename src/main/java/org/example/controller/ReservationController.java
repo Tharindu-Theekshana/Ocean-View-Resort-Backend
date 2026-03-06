@@ -22,6 +22,15 @@ public class ReservationController {
     }
 
     @GET
+    public Response getAllReservations(){
+        try{
+            return Response.status(Response.Status.OK).entity(reservationService.getAllReservations()).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("cant get reservations: "+ e.getMessage()).build();
+        }
+    }
+
+    @GET
     @Path("/{userId}")
     public Response getReservationsByUserId(@PathParam("userId") Long userId) {
         try{

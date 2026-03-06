@@ -32,4 +32,10 @@ public class RoomRepository {
         }
     }
 
+    public List<Room> findAll() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("FROM Room", Room.class).list();
+        }
+    }
+
 }

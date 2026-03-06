@@ -31,4 +31,10 @@ public class ReservationRepository {
             return session.get(Reservation.class, id);
         }
     }
+
+    public List<Reservation> findAll() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("FROM Reservation", Reservation.class).list();
+        }
+    }
 }

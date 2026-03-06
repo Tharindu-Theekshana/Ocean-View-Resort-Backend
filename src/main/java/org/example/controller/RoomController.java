@@ -60,7 +60,8 @@ public class RoomController {
         }
     }
 
-    @GET
+    @GET()
+    @Path("/type")
     public Response getRoomsByType(@QueryParam("type") String type) {
         try {
             return Response.status(Response.Status.OK).entity(roomService.getRoomsByType(type)).build();
@@ -68,6 +69,15 @@ public class RoomController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Invalid room type: " + type).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("cant get rooms: " + e.getMessage()).build();
+        }
+    }
+
+    @GET()
+    public Response getAllRooms() {
+        try {
+            return Response.status(Response.Status.OK).entity(roomService.getAllRooms()).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("cant get all rooms: "+ e.getMessage()).build();
         }
     }
 

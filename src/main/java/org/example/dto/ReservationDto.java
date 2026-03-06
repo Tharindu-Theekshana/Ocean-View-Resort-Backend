@@ -5,9 +5,15 @@ import java.time.LocalDate;
 public class ReservationDto {
 
     private Long userId;
+    private Long userDetailId;
     private Long roomId;
     private String checkInDate;
     private String checkOutDate;
+    private boolean isReservedByGuest;
+    private boolean isNewGuest;
+    private String name;
+    private String address;
+    private String phoneNumber;
 
     public Long getUserId() {
         return userId;
@@ -41,4 +47,51 @@ public class ReservationDto {
         this.checkOutDate = checkOutDate;
     }
 
+    public boolean isReservedByGuest() {
+        return isReservedByGuest;
+    }
+
+    public void setReservedByGuest(boolean reservedByGuest) {
+        isReservedByGuest = reservedByGuest;
+    }
+
+    public boolean isNewGuest() {
+        return isNewGuest;
+    }
+
+    public void setNewGuest(boolean newGuest) {
+        isNewGuest = newGuest;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Long getUserDetailId() {
+        return userDetailId;
+    }
+
+    public void setUserDetailId(Long userDetailId) {
+        this.userDetailId = userDetailId;
+    }
 }

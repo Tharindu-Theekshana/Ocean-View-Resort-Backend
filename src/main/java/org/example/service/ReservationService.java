@@ -25,18 +25,50 @@ public class ReservationService {
     private UserDetailRepository userDetailRepository = new UserDetailRepository();
 
     public Object createReservation(ReservationDto reservationDto) {
-        UserDetail userDetail = userDetailRepository.findByUserId(reservationDto.getUserId());
-        if(userDetail == null) {
-            throw new RuntimeException("no user found");
+        if(reservationDto.isReservedByGuest()) {
+            UserDetail userDetail = userDetailRepository.findByUserId(reservationDto.getUserId());
+            if (userDetail == null) {
+                throw new RuntimeException("no user found");
+            }
+            Room room = roomRepository.findById(reservationDto.getRoomId());
+            Reservation reservation = new Reservation();
+            reservation.setCheckInDate(reservationDto.getCheckInDate());
+            reservation.setCheckOutDate(reservationDto.getCheckOutDate());
+            reservation.setUserDetail(userDetail);
+            reservation.setNetTotal(calculateDays(reservationDto.getCheckInDate(), reservationDto.getCheckOutDate()) * room.getPrice());
+            reservation.setRoom(room);
+            return reservationRepository.save(reservation);
+        }else{
+            if(reservationDto.isNewGuest()) {
+                UserDetail userDetail = new UserDetail();
+                userDetail.setName(reservationDto.getName());
+                userDetail.setAddress(reservationDto.getAddress());
+                userDetail.setPhoneNumber(reservationDto.getPhoneNumber());
+                UserDetail savedUserDetail = userDetailRepository.save(userDetail);
+
+                Room room = roomRepository.findById(reservationDto.getRoomId());
+                Reservation reservation = new Reservation();
+                reservation.setCheckInDate(reservationDto.getCheckInDate());
+                reservation.setCheckOutDate(reservationDto.getCheckOutDate());
+                reservation.setUserDetail(savedUserDetail);
+                reservation.setNetTotal(calculateDays(reservationDto.getCheckInDate(), reservationDto.getCheckOutDate()) * room.getPrice());
+                reservation.setRoom(room);
+                return reservationRepository.save(reservation);
+            }else{
+                UserDetail userDetail = userDetailRepository.findById(reservationDto.getUserDetailId());
+                if (userDetail == null) {
+                    throw new RuntimeException("no user found");
+                }
+                Room room = roomRepository.findById(reservationDto.getRoomId());
+                Reservation reservation = new Reservation();
+                reservation.setCheckInDate(reservationDto.getCheckInDate());
+                reservation.setCheckOutDate(reservationDto.getCheckOutDate());
+                reservation.setUserDetail(userDetail);
+                reservation.setNetTotal(calculateDays(reservationDto.getCheckInDate(), reservationDto.getCheckOutDate()) * room.getPrice());
+                reservation.setRoom(room);
+                return reservationRepository.save(reservation);
+            }
         }
-        Room room = roomRepository.findById(reservationDto.getRoomId());
-        Reservation reservation = new Reservation();
-        reservation.setCheckInDate(reservationDto.getCheckInDate());
-        reservation.setCheckOutDate(reservationDto.getCheckOutDate());
-        reservation.setUserDetail(userDetail);
-        reservation.setNetTotal(calculateDays(reservationDto.getCheckInDate(), reservationDto.getCheckOutDate()) * room.getPrice());
-        reservation.setRoom(room);
-        return reservationRepository.save(reservation);
     }
 
     public List<Reservation> getReservationsByUserId(Long userId) {
@@ -122,5 +154,9 @@ public class ReservationService {
         LocalDate checkOut = LocalDate.parse(checkOutDate, formatter);
         long daysBetween = ChronoUnit.DAYS.between(checkIn, checkOut);
         return daysBetween;
+    }
+
+    public List<Reservation> getAllReservations() {
+        return reservationRepository.findAll();
     }
 }

@@ -1,4 +1,23 @@
 package org.example.config;
 
-public class DBListener {
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.annotation.WebListener;
+import org.example.config.HibernateUtil;
+
+@WebListener
+public class DBListener implements ServletContextListener {
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        System.out.println("Starting Hibernate via Listener...");
+        HibernateUtil.getSessionFactory();
+        System.out.println("Hibernate Initialized!");
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        if (HibernateUtil.getSessionFactory() != null) {
+            HibernateUtil.getSessionFactory().close();
+        }
+    }
 }
