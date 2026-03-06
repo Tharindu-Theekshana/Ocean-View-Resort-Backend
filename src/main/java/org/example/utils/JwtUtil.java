@@ -1,13 +1,11 @@
-package org.example.config;
+package org.example.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.example.model.UserRole;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
-import java.util.List;
 
 public class JwtUtil {
     private static final String SECRET = "s#10987654321thvart09kmg4778htdbkg";

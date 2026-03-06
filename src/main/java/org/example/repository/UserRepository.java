@@ -1,11 +1,9 @@
 package org.example.repository;
 
-import org.example.config.HibernateUtil;
+import org.example.utils.HibernateUtil;
 import org.example.model.User;
 import org.example.model.UserRole;
 import org.hibernate.Session;
-
-import java.util.List;
 
 public class UserRepository {
 

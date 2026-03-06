@@ -1,20 +1,16 @@
 package org.example.service;
 
 
-import org.example.config.HibernateUtil;
-import org.example.config.JwtUtil;
+import org.example.utils.JwtUtil;
 import org.example.dto.UserDto;
 import org.example.model.*;
 import org.example.repository.RoleRepository;
 import org.example.repository.UserDetailRepository;
 import org.example.repository.UserRepository;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.jvnet.hk2.annotations.Service;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.HashMap;
-import java.util.List;
 
 @Service
 public class AuthService {

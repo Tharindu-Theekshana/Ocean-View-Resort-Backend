@@ -1,8 +1,7 @@
 package org.example.repository;
 
-import org.example.config.HibernateUtil;
+import org.example.utils.HibernateUtil;
 import org.example.model.Reservation;
-import org.example.model.Room;
 import org.hibernate.Session;
 
 import java.util.List;

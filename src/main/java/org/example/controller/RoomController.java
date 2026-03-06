@@ -7,7 +7,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.example.config.JwtUtil;
+import org.example.utils.JwtUtil;
 import org.example.model.Room;
 import org.example.service.RoomService;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
