@@ -1,7 +1,7 @@
 package org.example.service;
 
 
-import org.example.utils.JwtUtil;
+import org.example.config.JwtUtil;
 import org.example.dto.UserDto;
 import org.example.model.*;
 import org.example.repository.RoleRepository;

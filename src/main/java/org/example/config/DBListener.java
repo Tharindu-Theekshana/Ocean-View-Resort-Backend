@@ -3,7 +3,6 @@ package org.example.config;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
-import org.example.utils.HibernateUtil;
 
 @WebListener
 public class DBListener implements ServletContextListener {

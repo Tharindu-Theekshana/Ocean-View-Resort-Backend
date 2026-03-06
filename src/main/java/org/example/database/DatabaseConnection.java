@@ -1,6 +1,6 @@
 package org.example.database;
 
-import org.example.utils.ConfigLoader;
+import org.example.config.ConfigLoader;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

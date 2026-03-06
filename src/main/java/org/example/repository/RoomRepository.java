@@ -1,6 +1,6 @@
 package org.example.repository;
 
-import org.example.utils.HibernateUtil;
+import org.example.config.HibernateUtil;
 import org.example.model.Room;
 import org.example.model.RoomType;
 import org.hibernate.Session;
